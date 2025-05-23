@@ -1,6 +1,6 @@
 package com.fixmystreet.fixmystreet.models;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,4 +12,15 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Location {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    private Double latitude;
+    private Double longitude;
+    private String address;
+
+    @OneToOne
+    private Report report;
 }

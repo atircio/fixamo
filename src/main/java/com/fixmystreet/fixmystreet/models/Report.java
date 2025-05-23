@@ -1,9 +1,6 @@
 package com.fixmystreet.fixmystreet.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +24,23 @@ public class Report {
     private String description;
     private String rewrittenMessage;
     private String Severity;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
-    private List<ReportImage> reportImagesList;
+
+    @OneToMany(mappedBy = "report")
+    private List<ReportImage> reportImages;
+
+    @OneToMany(mappedBy = "report")
+    private List<Keyword> keywords;
+
+    @OneToOne
+    @JoinColumn(name = "location_id")
     private Location location;
     private LocalDateTime createdAt;
 }

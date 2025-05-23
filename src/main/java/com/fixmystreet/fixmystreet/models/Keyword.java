@@ -6,22 +6,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Category {
+public class Keyword {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
+    private String word;
 
-    @OneToMany(mappedBy = "category")
-    private List<Report> reportList;
+    @ManyToOne
+    @JoinColumn(name = "report_id")
+    private Report report;
+
+
+
+
 }
