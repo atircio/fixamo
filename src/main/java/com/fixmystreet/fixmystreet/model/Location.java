@@ -1,4 +1,4 @@
-package com.fixmystreet.fixmystreet.models;
+package com.fixmystreet.fixmystreet.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,22 +6,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Category {
+@Table(name = "TB_LOCATION")
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
+    private Double latitude;
+    private Double longitude;
+    private String address;
 
-    @OneToMany(mappedBy = "category")
-    private List<Report> reportList;
+    @OneToOne
+    private Report report;
 }

@@ -1,4 +1,4 @@
-package com.fixmystreet.fixmystreet.models;
+package com.fixmystreet.fixmystreet.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name = "TB_REPORT")
 public class Report {
 
     @Id

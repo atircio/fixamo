@@ -1,4 +1,4 @@
-package com.fixmystreet.fixmystreet.models;
+package com.fixmystreet.fixmystreet.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,19 +11,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Keyword {
+@Table(name = "TB_REPORT_IMAGE")
+public class ReportImage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy =  GenerationType.AUTO)
     private Long id;
 
-    private String word;
+    private String imageUrl;
 
     @ManyToOne
     @JoinColumn(name = "report_id")
     private Report report;
-
-
-
-
 }
