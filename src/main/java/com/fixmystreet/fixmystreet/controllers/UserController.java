@@ -20,4 +20,9 @@ public class UserController {
     public ResponseEntity<UserResponseDto> userResponseDtoResponseEntity( @RequestBody CreateUserDTO dto){
         return ResponseEntity.ok().body(userService.createUser(dto));
     }
+
+    @GetMapping(value = "/findUserByEmail/{email}")
+    public ResponseEntity<UserResponseDto> findUserByEmail(@PathVariable String email){
+        return ResponseEntity.ok().body(userService.findByEmail(email));
+    }
 }

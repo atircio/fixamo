@@ -11,7 +11,6 @@ import org.mapstruct.Mappings;
 public interface UserMapper {
 
     @Mappings( {
-                @Mapping(target = "id", ignore = true),
                 @Mapping(target = "role", expression = "java(com.fixmystreet.fixmystreet.model.enums.Role.REPORTER)"),
                 @Mapping(target = "reportList", ignore = true)
             } )

@@ -44,4 +44,10 @@ public class Report {
     @JoinColumn(name = "location_id")
     private Location location;
     private LocalDateTime createdAt;
+
+
+    @PrePersist
+    void setUp(){
+        this.createdAt = LocalDateTime.now();
+    }
 }
