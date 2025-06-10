@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ReportImageMapper {
 
@@ -13,9 +15,12 @@ public interface ReportImageMapper {
     ReportImageDTO mapReportImageToReportImageDTO(ReportImage reportImage);
 
     @Mappings({
-            @Mapping(target = "id", ignore = true)
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "report", ignore = true)
     })
-    @Mapping(target = "report", ignore = true)
     ReportImage mapReportImageDtoToReportImage(ReportImageDTO reportImageDTO);
+
+    List<ReportImage> map(List<ReportImageDTO> dtoList);
+
 
 }

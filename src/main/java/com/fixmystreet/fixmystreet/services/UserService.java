@@ -79,8 +79,15 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
-        user.setName(dto.name());
-        user.setEmail(dto.email());
+        if(dto.name() != null && !dto.name().isBlank()){
+            user.setName(dto.name());
+        }
+        if(dto.email() != null && !dto.email().isBlank()){
+            user.setEmail(dto.email());
+        }
+        if(dto.profileImage() != null && !dto.profileImage().isBlank()){
+                user.setEmail(dto.profileImage());
+        }
 
         if (dto.password() != null && !dto.password().isEmpty()) {
             user.setPassword(passwordEncoder.encode(dto.password()));
