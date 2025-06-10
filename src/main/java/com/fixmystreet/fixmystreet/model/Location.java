@@ -25,16 +25,12 @@ public class Location {
     @OneToOne
     private Report report;
 
-    public Location(Double latitude, Double longitude, String address) {
+
+    public Location(Double latitude, Double longitude, String address, Report report) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
+        this.report = report;
     }
 
-    public Location(Report report, String address, Double longitude, Double latitude) {
-        this.report = report;
-        this.address = address;
-        this.longitude = longitude;
-        this.latitude = latitude;
-    }
 }

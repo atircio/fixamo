@@ -42,7 +42,7 @@ public class ReportService {
         String categoryFromAI = aiProcessorService.CategorizeReport(dto.title());
         Category category = categoryRepository.findByName(categoryFromAI).orElse(categoryRepository.save(new Category(categoryFromAI)));
 
-        Location location = locationRepository.save(new Location(dto.location().latitude(), dto.location().longitude(), dto.location().address()));
+        Location location = locationRepository.save(new Location(dto.location().latitude(), dto.location().longitude(), dto.location().address(), report));
 
         List<String> keywordsFromAI = aiProcessorService.setKeywords(dto.description());
         List<Keyword> keywords = keywordsFromAI.stream().map(
