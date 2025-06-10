@@ -15,9 +15,10 @@ public class RequestConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // disable CSRF for non-browser clients like Postman
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/newUser").permitAll() // allow unauthenticated access
+                        .requestMatchers("/api/users/**").permitAll()
+                        .requestMatchers("/api/reports/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults()); // or use .formLogin(), or JWT setup

@@ -1,6 +1,6 @@
 package com.fixmystreet.fixmystreet.dtos.users;
 
-public record UserResponseDto(
+public record UserProfileDTO(
         String name,
         String email,
         String profileImage

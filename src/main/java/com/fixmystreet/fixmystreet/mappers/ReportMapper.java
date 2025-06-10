@@ -3,6 +3,8 @@ package com.fixmystreet.fixmystreet.mappers;
 import com.fixmystreet.fixmystreet.dtos.reports.CreateReportDTO;
 import com.fixmystreet.fixmystreet.dtos.reports.ReportResponseDTO;
 import com.fixmystreet.fixmystreet.model.Report;
+import com.fixmystreet.fixmystreet.services.UserService;
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -12,9 +14,14 @@ public interface ReportMapper {
 
     @Mappings({
             @Mapping(target = "rewrittenMessage", ignore = true),
-            @Mapping(target = "user", expression = "java")
+            @Mapping(target = "user", expression = "java(userService.findUserById(dto.userId()))"),
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "severity", ignore = true),
+            @Mapping(target = "category", ignore = true),
+            @Mapping(target = "keywords", ignore = true),
+            @Mapping(target = "reportImages", source = "dto.reportImages")
     })
-    Report mapCreateReportDtoToReport(CreateReportDTO dto);
+    Report mapCreateReportDtoToReport(CreateReportDTO dto, @Context UserService userService);
 
     ReportResponseDTO mapReportToReportResponseDto(Report report);
 }

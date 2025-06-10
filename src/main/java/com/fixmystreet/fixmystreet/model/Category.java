@@ -23,6 +23,10 @@ public class Category {
 
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Report> reportList;
+
+    public Category(String name){
+        this.name = name;
+    }
 }

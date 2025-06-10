@@ -24,7 +24,7 @@ public class Report {
     private String title;
     private String description;
     private String rewrittenMessage;
-    private String Severity;
+    private String severity;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -34,10 +34,10 @@ public class Report {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReportImage> reportImages;
 
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Keyword> keywords;
 
     @OneToOne
