@@ -1,17 +1,20 @@
 package com.fixmystreet.fixmystreet.services;
 
+import com.fixmystreet.fixmystreet.dtos.reportImage.ReportImageDTO;
 import com.fixmystreet.fixmystreet.dtos.reports.CreateReportDTO;
 import com.fixmystreet.fixmystreet.dtos.reports.ReportResponseDTO;
+import com.fixmystreet.fixmystreet.dtos.reports.updateReportDTO;
+import com.fixmystreet.fixmystreet.mappers.LocationMapper;
+import com.fixmystreet.fixmystreet.mappers.ReportImageMapper;
 import com.fixmystreet.fixmystreet.mappers.ReportMapper;
-import com.fixmystreet.fixmystreet.model.Category;
-import com.fixmystreet.fixmystreet.model.Keyword;
-import com.fixmystreet.fixmystreet.model.Location;
-import com.fixmystreet.fixmystreet.model.Report;
+import com.fixmystreet.fixmystreet.model.*;
 import com.fixmystreet.fixmystreet.repository.CategoryRepository;
 import com.fixmystreet.fixmystreet.repository.LocationRepository;
 import com.fixmystreet.fixmystreet.repository.ReportRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,14 +28,18 @@ public class ReportService {
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
     private final AIProcessorService aiProcessorService;
+    private final ReportImageMapper reportImageMapper;
+    private final LocationMapper locationMapper;
 
-    public ReportService(ReportRepository reportRepository, ReportMapper reportMapper, UserService userService, CategoryRepository categoryRepository, LocationRepository locationRepository, AIProcessorService aiProcessorService) {
+    public ReportService(ReportRepository reportRepository, ReportMapper reportMapper, UserService userService, CategoryRepository categoryRepository, LocationRepository locationRepository, AIProcessorService aiProcessorService, ReportImageMapper reportImageMapper, LocationMapper locationMapper) {
         this.reportRepository = reportRepository;
         this.reportMapper = reportMapper;
         this.userService = userService;
         this.categoryRepository = categoryRepository;
         this.locationRepository = locationRepository;
         this.aiProcessorService = aiProcessorService;
+        this.reportImageMapper = reportImageMapper;
+        this.locationMapper = locationMapper;
     }
 
     public ReportResponseDTO createReport(CreateReportDTO dto) {
@@ -78,12 +85,35 @@ public class ReportService {
         return reportMapper.mapReportToReportResponseDto(report);
     }
 
-    public ReportResponseDTO updateReport(Long id, CreateReportDTO dto) {
+    public ReportResponseDTO updateReport(Long id, updateReportDTO dto) {
         Report report = reportRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Report not found with id: " + id));
 
-        report.setTitle(dto.title());
-        report.setDescription(dto.description());
+        if(dto.title() != null && !dto.title().isBlank()){
+            report.setTitle(dto.title());
+        }
+        if(dto.description() != null && !dto.description().isBlank()){
+            report.setDescription(dto.description());
+        }
+        if(dto.reportImages() != null){
+            List<ReportImage> reportImagesList = new ArrayList<>();
+            for (ReportImageDTO i : dto.reportImages()) {
+                reportImagesList.add(new ReportImage(i.imageUrl(), report));
+            }
+            report.getReportImages().clear();
+            report.setReportImages(reportImagesList);
+        }
+        if(dto.location() != null ){
+            if (dto.location().address() != null){
+                report.getLocation().setAddress(dto.location().address());
+            }
+            if (dto.location().longitude() != null){
+                report.getLocation().setLongitude(dto.location().longitude());
+            }
+            if (dto.location().latitude() != null){
+                report.getLocation().setLatitude(dto.location().latitude());
+            }
+        }
 
         reportRepository.save(report);
         return reportMapper.mapReportToReportResponseDto(report);

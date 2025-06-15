@@ -34,7 +34,7 @@ public class Report {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     private List<ReportImage> reportImages;
 
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)

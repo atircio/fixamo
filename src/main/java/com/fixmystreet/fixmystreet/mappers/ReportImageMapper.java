@@ -20,7 +20,7 @@ public interface ReportImageMapper {
     })
     ReportImage mapReportImageDtoToReportImage(ReportImageDTO reportImageDTO);
 
-    List<ReportImage> map(List<ReportImageDTO> dtoList);
+    List<ReportImage> mapReportImageDtoListToReportImageList(List<ReportImageDTO> dtoList);
 
 
 }

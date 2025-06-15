@@ -2,6 +2,7 @@ package com.fixmystreet.fixmystreet.controllers;
 
 import com.fixmystreet.fixmystreet.dtos.reports.CreateReportDTO;
 import com.fixmystreet.fixmystreet.dtos.reports.ReportResponseDTO;
+import com.fixmystreet.fixmystreet.dtos.reports.updateReportDTO;
 import com.fixmystreet.fixmystreet.services.ReportService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class ReportController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ReportResponseDTO> updateReport(@PathVariable Long id, @RequestBody CreateReportDTO dto) {
+    public ResponseEntity<ReportResponseDTO> updateReport(@PathVariable Long id, @RequestBody updateReportDTO dto) {
         return ResponseEntity.ok(reportService.updateReport(id, dto));
     }
 

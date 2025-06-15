@@ -23,4 +23,9 @@ public class ReportImage {
     @ManyToOne
     @JoinColumn(name = "report_id")
     private Report report;
+
+    public ReportImage(String imageUrl, Report report) {
+        this.imageUrl = imageUrl;
+        this.report = report;
+    }
 }

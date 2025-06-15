@@ -24,6 +24,11 @@ public class Keyword {
     @JoinColumn(name = "report_id")
     private Report report;
 
+    public Keyword(String word, Report report){
+        this.word = word;
+        this.report = report;
+    }
+
 
 
 
