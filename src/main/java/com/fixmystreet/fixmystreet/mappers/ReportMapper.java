@@ -4,12 +4,9 @@ import com.fixmystreet.fixmystreet.dtos.reports.CreateReportDTO;
 import com.fixmystreet.fixmystreet.dtos.reports.ReportResponseDTO;
 import com.fixmystreet.fixmystreet.model.Report;
 import com.fixmystreet.fixmystreet.services.UserService;
-import org.mapstruct.Context;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring",  uses = {ReportImageMapper.class})
+@Mapper(componentModel = "spring",  uses = {ReportImageMapper.class} , injectionStrategy = InjectionStrategy.FIELD)
 public interface ReportMapper {
 
     @Mappings({
