@@ -1,15 +1,12 @@
 package com.fixmystreet.fixmystreet.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
+
 @Setter
+@Getter
 @Entity
 @Table(name = "TB_REPORT_IMAGE")
 public class ReportImage {
@@ -28,4 +25,8 @@ public class ReportImage {
         this.imageUrl = imageUrl;
         this.report = report;
     }
+
+    public ReportImage() {
+    }
+
 }

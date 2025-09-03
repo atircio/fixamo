@@ -4,18 +4,15 @@ import com.fixmystreet.fixmystreet.dtos.locations.LocationDTO;
 import com.fixmystreet.fixmystreet.model.Location;
 import com.fixmystreet.fixmystreet.model.Report;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class LocationMapperTest {
 
+    @Autowired
     LocationMapper locationMapper;
 
-    @BeforeEach
-    void setUp(){
-        locationMapper = Mappers.getMapper(LocationMapper.class);
-    }
+
 
     @Test
     void shouldMapLocationDtoToLocation(){

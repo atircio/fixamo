@@ -1,18 +1,12 @@
 package com.fixmystreet.fixmystreet.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 import java.util.List;
 
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+
 @Entity
 @Table(name = "TB_CATEGORY")
 public class Category {
@@ -28,5 +22,32 @@ public class Category {
 
     public Category(String name){
         this.name = name;
+    }
+
+    public Category() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Report> getReportList() {
+        return reportList;
+    }
+
+    public void setReportList(List<Report> reportList) {
+        this.reportList = reportList;
     }
 }

@@ -17,11 +17,19 @@ public class RequestConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/**").permitAll()
-                        .requestMatchers("/api/reports/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .httpBasic(withDefaults()); // or use .formLogin(), or JWT setup
+                // Public endpoints
+                .requestMatchers("/api/users/**").permitAll()
+                .requestMatchers("/api/reports/**").permitAll()
+                .requestMatchers(
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/swagger-ui/index.html"
+                ).permitAll()
+                // All other endpoints require authentication
+                .anyRequest().authenticated()
+        )
+                .httpBasic(withDefaults());// or use .formLogin(), or JWT setup
 
         return http.build();
     }

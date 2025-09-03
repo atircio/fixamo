@@ -1,15 +1,11 @@
 package com.fixmystreet.fixmystreet.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
 @Setter
+@Getter
 @Entity
 @Table(name = "TB_LOCATION")
 public class Location {
@@ -31,6 +27,9 @@ public class Location {
         this.longitude = longitude;
         this.address = address;
         this.report = report;
+    }
+
+    public Location() {
     }
 
 }

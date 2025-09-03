@@ -3,20 +3,17 @@ package com.fixmystreet.fixmystreet.mappers;
 import com.fixmystreet.fixmystreet.dtos.reportImage.ReportImageDTO;
 import com.fixmystreet.fixmystreet.model.ReportImage;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class ReportImageMapperTest {
 
+    @Autowired
     ReportImageMapper reportImageMapper;
 
-    @BeforeEach
-    void setUp() {
-        reportImageMapper = Mappers.getMapper(ReportImageMapper.class);
-    }
+
 
     @Test
     void shouldMapReportImageToReportImageDTO(){

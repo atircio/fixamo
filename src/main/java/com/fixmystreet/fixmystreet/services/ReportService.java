@@ -1,5 +1,6 @@
 package com.fixmystreet.fixmystreet.services;
 
+import com.fixmystreet.fixmystreet.dtos.AIReportDTO;
 import com.fixmystreet.fixmystreet.dtos.reportImage.ReportImageDTO;
 import com.fixmystreet.fixmystreet.dtos.reports.CreateReportDTO;
 import com.fixmystreet.fixmystreet.dtos.reports.ReportResponseDTO;
@@ -43,34 +44,32 @@ public class ReportService {
     }
 
     public ReportResponseDTO createReport(CreateReportDTO dto) {
+        String raw = dto.description();
+        String locationText = dto.location() != null ? dto.location().toString() : "";
+        AIReportDTO aiResult = aiProcessorService.processReport(raw, locationText);
+
         Report report = reportMapper.mapCreateReportDtoToReport(dto, userService);
+        if (report == null) {
+            throw new IllegalStateException("Mapper returned null report");
+        }
 
-        //Mocking an external service to set a category name
-        String categoryFromAI = aiProcessorService.CategorizeReport(dto.title());
-        Category category = categoryRepository.findByName(categoryFromAI).orElse(categoryRepository.save(new Category(categoryFromAI)));
+        report.setTitle(aiResult.title());
+        report.setRewrittenMessage(aiResult.rewrittenMessage());
+        report.setSeverity(aiResult.severity());
+        report.setCategory(categoryRepository.findByName(aiResult.category()).orElseGet(
+                () -> {
+                    return categoryRepository.save(new Category(aiResult.category()));
+                }
+        ));
+        report.setKeywords(aiResult.keywords().stream().map(k -> new Keyword(k, report)).toList());
 
-        Location location = locationRepository.save(new Location(dto.location().latitude(), dto.location().longitude(), dto.location().address(), report));
+        // 4. Save
+        Report savedReport = reportRepository.save(report);
 
-        List<String> keywordsFromAI = aiProcessorService.setKeywords(dto.description());
-        List<Keyword> keywords = keywordsFromAI.stream().map(
-                word -> {
-                    Keyword keyword = new Keyword();
-                    keyword.setWord(word);
-                    keyword.setReport(report);
-                    return keyword;
-                }).toList();
-
-        report.setLocation(location);
-        report.setSeverity("high");
-        report.setCategory(category);
-        report.setRewrittenMessage(aiProcessorService.rewriteDescription(dto.title() ,dto.description()));
-        report.setKeywords(keywords);
-
-
-        report.getReportImages().forEach(image -> image.setReport(report));
-        reportRepository.save(report);
-        return reportMapper.mapReportToReportResponseDto(report);
+        // 5. Return response
+        return reportMapper.mapReportToReportResponseDto(savedReport);
     }
+
 
     public List<ReportResponseDTO> getAllReports() {
         return reportRepository.findAll()
