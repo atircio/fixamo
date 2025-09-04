@@ -16,7 +16,8 @@ public interface ReportMapper {
             @Mapping(target = "severity", ignore = true),
             @Mapping(target = "category", ignore = true),
             @Mapping(target = "keywords", ignore = true),
-            @Mapping(target = "reportImages", source = "dto.reportImages")
+            @Mapping(target = "reportImages", source = "dto.reportImages"),
+            @Mapping(target = "createdAt", ignore = true)
     })
     Report mapCreateReportDtoToReport(CreateReportDTO dto, @Context UserService userService);
 

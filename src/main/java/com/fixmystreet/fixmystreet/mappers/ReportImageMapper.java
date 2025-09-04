@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ReportImageMapper {
 
-    @Mapping(target = "imageUrl", source = "imageUrl")
     ReportImageDTO mapReportImageToReportImageDTO(ReportImage reportImage);
 
     @Mappings({
