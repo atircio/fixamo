@@ -2,7 +2,7 @@ package com.fixmystreet.fixmystreet.mappers;
 
 
 
-import com.fixmystreet.fixmystreet.dtos.users.CreateUserDTO;
+import com.fixmystreet.fixmystreet.dtos.users.SignupRequestDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserProfileDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserWithReportsDTO;
 import com.fixmystreet.fixmystreet.model.*;
@@ -32,8 +32,9 @@ public class UserMapperTest {
     @Test
     void mapCreateUserDtoToUser(){
 
-        CreateUserDTO dto = new CreateUserDTO(
+        SignupRequestDTO dto = new SignupRequestDTO(
              "Atircio Matias",
+             "atm",
              "atmatas12@gmail.com",
              "password123",
              "profile.png"
@@ -45,7 +46,7 @@ public class UserMapperTest {
         assertEquals(dto.email(), user.getEmail());
         assertEquals(dto.password(), user.getPassword());
         assertEquals(dto.profileImage(), user.getProfileImage());
-        assertEquals(Role.REPORTER, user.getRole());
+        assertEquals(Role.CITIZEN, user.getRole());
 
     }
 

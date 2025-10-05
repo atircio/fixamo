@@ -1,6 +1,6 @@
 package com.fixmystreet.fixmystreet.services;
 
-import com.fixmystreet.fixmystreet.dtos.users.CreateUserDTO;
+import com.fixmystreet.fixmystreet.dtos.users.SignupRequestDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserProfileDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UpdateUserDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserWithReportsDTO;
@@ -29,10 +29,10 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserProfileDTO createUser(CreateUserDTO dto) {
+    public UserProfileDTO createUser(SignupRequestDTO dto) {
         User user = userMapper.mapCreateUserDtoToUser(dto);
         user.setPassword(passwordEncoder.encode(dto.password()));
-        user.setRole(Role.REPORTER);
+        user.setRole(Role.CITIZEN);
         userRepository.save(user);
         return userMapper.mapUserToUserResponseDto(user);
     }

@@ -2,11 +2,17 @@ package com.fixmystreet.fixmystreet.dtos.users;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-public record CreateUserDTO(
+public record SignupRequestDTO(
 
         @NotBlank(message = "Name is required")
+        @Size(min = 6, max = 100)
         String name,
+
+        @NotBlank
+        @Size(min = 6, max = 50)
+        String username,
 
         @Email(message = "Email is not valid")
         String email,

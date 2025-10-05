@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    container_name: fixmystreet
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/${DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_ENDPOINT=${GITHUB_ENDPOINT}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - ./.env:/app/.env
+
+  db:
+    image: postgres:15
+    container_name: fixmystreet_database
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

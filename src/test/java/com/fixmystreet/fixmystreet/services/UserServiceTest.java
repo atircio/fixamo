@@ -1,6 +1,6 @@
 package com.fixmystreet.fixmystreet.services;
 
-import com.fixmystreet.fixmystreet.dtos.users.CreateUserDTO;
+import com.fixmystreet.fixmystreet.dtos.users.SignupRequestDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserProfileDTO;
 import com.fixmystreet.fixmystreet.mappers.UserMapper;
 import com.fixmystreet.fixmystreet.model.User;
@@ -35,8 +35,9 @@ public class UserServiceTest {
     @Test
     void shouldCreateAndSaveUserSuccessfully(){
         //Given
-        CreateUserDTO dto = new CreateUserDTO(
+        SignupRequestDTO dto = new SignupRequestDTO(
             "Atircio Matias",
+                "att",
                 "atmatias12@gmail.com",
                 "pass123",
                 "image.png"

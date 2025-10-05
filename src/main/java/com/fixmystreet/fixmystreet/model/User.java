@@ -1,9 +1,11 @@
 package com.fixmystreet.fixmystreet.model;
 
 import com.fixmystreet.fixmystreet.model.enums.Role;
+import com.fixmystreet.fixmystreet.model.enums.Status;
 import jakarta.persistence.*;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -17,10 +19,14 @@ public class User {
     private Long id;
 
     private String name;
+    private String username;
     private String email;
     private String password;
     private String profileImage;
     private Role role;
+    private Status status;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "user")
     private List<Report> reportList;
@@ -82,5 +88,47 @@ public class User {
 
     public void setReportList(List<Report> reportList) {
         this.reportList = reportList;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @PrePersist
+    private void onCreate(){
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void onUpdate(){
+        this.updatedAt = LocalDateTime.now();
     }
 }

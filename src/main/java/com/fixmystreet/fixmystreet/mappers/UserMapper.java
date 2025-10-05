@@ -1,6 +1,6 @@
 package com.fixmystreet.fixmystreet.mappers;
 
-import com.fixmystreet.fixmystreet.dtos.users.CreateUserDTO;
+import com.fixmystreet.fixmystreet.dtos.users.SignupRequestDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserProfileDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserWithReportsDTO;
 import com.fixmystreet.fixmystreet.model.User;
@@ -16,7 +16,7 @@ public interface UserMapper {
                 @Mapping(target = "reportList", ignore = true),
                 @Mapping(target ="id", ignore = true)
             } )
-    User mapCreateUserDtoToUser(CreateUserDTO dto);
+    User mapCreateUserDtoToUser(SignupRequestDTO dto);
 
 
     UserProfileDTO mapUserToUserResponseDto(User user);

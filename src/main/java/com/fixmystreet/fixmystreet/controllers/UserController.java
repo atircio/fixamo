@@ -1,6 +1,6 @@
 package com.fixmystreet.fixmystreet.controllers;
 
-import com.fixmystreet.fixmystreet.dtos.users.CreateUserDTO;
+import com.fixmystreet.fixmystreet.dtos.users.SignupRequestDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UpdateUserDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserProfileDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserWithReportsDTO;
@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserProfileDTO> createUser(@RequestBody CreateUserDTO dto) {
+    public ResponseEntity<UserProfileDTO> createUser(@RequestBody SignupRequestDTO dto) {
         UserProfileDTO user = userService.createUser(dto);
         return ResponseEntity.ok(user);
     }
