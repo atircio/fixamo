@@ -1,4 +1,4 @@
-package com.fixmystreet.fixmystreet.dtos.users;
+package com.fixmystreet.fixmystreet.dtos.auth;
 
 
 import lombok.Data;

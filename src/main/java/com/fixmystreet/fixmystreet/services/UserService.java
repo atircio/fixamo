@@ -1,13 +1,12 @@
 package com.fixmystreet.fixmystreet.services;
 
-import com.fixmystreet.fixmystreet.dtos.users.SignupRequestDTO;
-import com.fixmystreet.fixmystreet.dtos.users.UserProfileDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UpdateUserDTO;
+import com.fixmystreet.fixmystreet.dtos.users.UserSummaryDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserWithReportsDTO;
 import com.fixmystreet.fixmystreet.mappers.UserMapper;
 import com.fixmystreet.fixmystreet.model.User;
-import com.fixmystreet.fixmystreet.model.enums.Role;
 import com.fixmystreet.fixmystreet.repository.UserRepository;
+import com.fixmystreet.fixmystreet.services.impl.AuthServiceImpl;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,31 +21,26 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final AuthServiceImpl authService;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder,
+                       AuthServiceImpl authService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.authService = authService;
     }
 
-    public UserProfileDTO createUser(SignupRequestDTO dto) {
-        User user = userMapper.mapCreateUserDtoToUser(dto);
-        user.setPassword(passwordEncoder.encode(dto.password()));
-        user.setRole(Role.CITIZEN);
-        userRepository.save(user);
-        return userMapper.mapUserToUserResponseDto(user);
-    }
 
-    public UserProfileDTO findByEmail(String email) {
+    public UserSummaryDTO findByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() ->  new RuntimeException("User not found with email: " + email));
-
-        return userMapper.mapUserToUserResponseDto(user);
+        return userMapper.mapUserToUserSummaryDTO(user);
     }
 
-    public UserProfileDTO findUserProfileDtoById(Long id) {
+    public UserSummaryDTO findUserProfileDtoById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        return userMapper.mapUserToUserResponseDto(user);
+        return userMapper.mapUserToUserSummaryDTO(user);
     }
 
     public User findUserById(Long id) {
@@ -66,16 +60,16 @@ public class UserService {
                 .map(userMapper::mapUserToUserWithReportsDTO)
                 .collect(Collectors.toList());
     }
-    public List<UserProfileDTO> getAllUserWithAllReports() {
+    public List<UserSummaryDTO> getAllUserWithAllReports() {
         return userRepository.findAll()
                 .stream()
-                .map(userMapper::mapUserToUserResponseDto)
+                .map(userMapper::mapUserToUserSummaryDTO)
                 .collect(Collectors.toList());
 
     }
 
 
-        public UserProfileDTO updateUser(Long id, UpdateUserDTO dto) {
+        public UserSummaryDTO updateUser(Long id, UpdateUserDTO dto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
@@ -94,7 +88,7 @@ public class UserService {
         }
 
         userRepository.save(user);
-        return userMapper.mapUserToUserResponseDto(user);
+        return userMapper.mapUserToUserSummaryDTO(user);
     }
 
     public void deleteUser(Long id) {
@@ -102,4 +96,6 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
         userRepository.delete(user);
     }
+
+
 }
