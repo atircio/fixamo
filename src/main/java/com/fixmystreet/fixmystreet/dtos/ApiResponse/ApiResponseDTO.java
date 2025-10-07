@@ -35,4 +35,14 @@ public class ApiResponseDTO {
                 .timestamp(Instant.now())
                 .build();
     }
+
+    public static ApiResponseDTO success(String message) {
+        return ApiResponseDTO.builder()
+                .success(true)
+                .message(message)
+                .timestamp(Instant.now())
+                .build();
+    }
+
+
 }

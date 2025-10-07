@@ -20,6 +20,7 @@ public class RequestConfiguration {
                 // Public endpoints
                 .requestMatchers("/api/users/**").permitAll()
                 .requestMatchers("/api/reports/**").permitAll()
+                        .requestMatchers("/api/vi/auth/**").permitAll()
                 .requestMatchers(
                         "/v3/api-docs/**",
                         "/swagger-ui/**",

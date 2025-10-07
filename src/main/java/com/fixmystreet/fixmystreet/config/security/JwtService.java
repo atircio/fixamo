@@ -1,8 +1,11 @@
 package com.fixmystreet.fixmystreet.config.security;
 
+import com.fixmystreet.fixmystreet.model.enums.Role;
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -11,26 +14,37 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.function.Function;
 
-@Service
+@Component
 public class JwtService {
 
-    private  String secretKey;
-    private final long expirationTime = 3600000L;
+    private final String secretKey;
+    private final long expirationTime;
+
+    public JwtService(){
+        Dotenv dotenv = Dotenv.load();
+        this.secretKey = dotenv.get("JWT_SECRET");
+        this.expirationTime = Long.parseLong(dotenv.get("JWT_EXPIRATION", "1800000"));
+    }
 
     private Key getSigningKey(){
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    public String generateToken(String username){
+    public String generateToken(String username, String role){
         return Jwts.builder()
                 .issuedAt(Date.from(Instant.now()))
-                .subject(username)
+                .claim("username",username)
+                .claim("role",role)
                 .expiration(new Date(expirationTime))
                 .signWith(getSigningKey()).compact();
     }
 
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, claims -> claims.get("username", String.class));
+    }
+
+    public String extractUserRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
