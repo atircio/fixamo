@@ -1,5 +1,6 @@
 package com.fixmystreet.fixmystreet.services.impl;
 
+import com.fixmystreet.fixmystreet.model.Token;
 import com.fixmystreet.fixmystreet.model.User;
 import com.fixmystreet.fixmystreet.model.enums.EmailVerificationToken;
 import com.fixmystreet.fixmystreet.model.enums.Status;
@@ -63,4 +64,6 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
         user.setStatus(Status.ACTIVE);
         tokenRepository.delete(verificationToken);
     }
+
+
 }

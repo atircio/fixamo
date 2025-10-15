@@ -1,7 +1,7 @@
 package com.fixmystreet.fixmystreet.model.enums;
 
 public enum Role {
-    CITIZEN,
-    ADMIN,
-    AUTHORITY
+    ROLE_CITIZEN,
+    ROLE_ADMIN,
+    ROLE_AUTHORITY
 }

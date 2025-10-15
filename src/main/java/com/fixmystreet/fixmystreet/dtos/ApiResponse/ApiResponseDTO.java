@@ -16,7 +16,6 @@ public class ApiResponseDTO {
     private String message;
     private Instant timestamp;
 
-    // Optional: can carry extra data
     private Object data;
 
     public static ApiResponseDTO success(String message, Object data) {

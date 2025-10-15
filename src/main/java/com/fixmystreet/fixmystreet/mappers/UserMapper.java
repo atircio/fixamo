@@ -12,7 +12,7 @@ import org.mapstruct.Mappings;
 public interface UserMapper {
 
     @Mappings( {
-            @Mapping(target = "role", expression = "java(com.fixmystreet.fixmystreet.model.enums.Role.CITIZEN)"),
+            @Mapping(target = "role", expression = "java(com.fixmystreet.fixmystreet.model.enums.Role.ROLE_CITIZEN)"),
             @Mapping(target = "reportList", ignore = true),
             @Mapping(target ="id", ignore = true),
             @Mapping(target ="status", expression = "java(com.fixmystreet.fixmystreet.model.enums.Status.PENDING_VERIFICATION)"),

@@ -3,6 +3,7 @@ package com.fixmystreet.fixmystreet.services;
 import com.fixmystreet.fixmystreet.dtos.users.UpdateUserDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserSummaryDTO;
 import com.fixmystreet.fixmystreet.dtos.users.UserWithReportsDTO;
+import com.fixmystreet.fixmystreet.exceptions.ResourceNotFoundException;
 import com.fixmystreet.fixmystreet.mappers.UserMapper;
 import com.fixmystreet.fixmystreet.model.User;
 import com.fixmystreet.fixmystreet.repository.UserRepository;
@@ -98,4 +99,8 @@ public class UserService {
     }
 
 
+    public UserSummaryDTO findByUsername(String username) {
+        return userMapper.mapUserToUserSummaryDTO(userRepository.findByUsername(username).orElseThrow(() ->
+                new ResourceNotFoundException("User not found with username: " + username)));
+    }
 }
