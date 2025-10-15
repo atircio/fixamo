@@ -145,7 +145,7 @@ Docker (optional, for container setup)
 bash
 Copy code
 # Clone the repo
-git clone https://github.com/your-username/fixamo.git
+git clone https://github.com/atircio/fixamo.git
 
 cd fixamo
 
@@ -227,13 +227,6 @@ We believe that better reporting, clarity, and categorization lead to faster iss
 
 “Technology is powerful when it makes life better for everyone.”
 
-🧾 License
-This project is licensed under the MIT License. See the LICENSE file for full details.
-
-vbnet
-Copy code
-
-If you like, I can format this for you with **GitHub markdown preview (with Table of Contents, badges, etc.)** or even generate a **starter API doc file** to go with it. Do you want me to do that next?
 
 
 
