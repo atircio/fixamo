@@ -10,6 +10,7 @@ import com.fixmystreet.fixmystreet.exceptions.BadRequestException;
 import com.fixmystreet.fixmystreet.exceptions.ResourceNotFoundException;
 import com.fixmystreet.fixmystreet.model.Token;
 import com.fixmystreet.fixmystreet.model.User;
+import com.fixmystreet.fixmystreet.model.enums.AuthProvider;
 import com.fixmystreet.fixmystreet.model.enums.Role;
 import com.fixmystreet.fixmystreet.model.enums.Status;
 import com.fixmystreet.fixmystreet.repository.TokenRepository;
@@ -41,11 +42,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponseDTO register(SignupRequestDTO request) {
 
-
         if (userRepository.existsByEmail(request.email())) {
             throw new BadRequestException("Email is already in use");
         }
-
 
         if (userRepository.existsByUsername(request.username())) {
             throw new BadRequestException("Username is already taken");
@@ -64,8 +63,6 @@ public class AuthServiceImpl implements AuthService {
 
         String token = jwtService.generateToken(user.getUsername(), user.getRole().name());
         String refreshToken = jwtService.generateToken(user.getUsername(), user.getRole().name());
-
-
 
         emailVerificationService.sendVerificationEmail(user, "http://localhost:8080");
 
@@ -87,9 +84,12 @@ public class AuthServiceImpl implements AuthService {
             throw new BadRequestException("User Suspended");
         }
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new BadRequestException("Invalid username or password");
+        if(request.getAuthProvider().equals(AuthProvider.LOCAL)){
+            if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                throw new BadRequestException("Invalid username or password");
+            }
         }
+
 
 
         String tokenGenerated = jwtService.generateToken(user.getUsername(), user.getRole().name());

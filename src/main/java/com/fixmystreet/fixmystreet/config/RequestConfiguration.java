@@ -1,7 +1,7 @@
 package com.fixmystreet.fixmystreet.config;
 
 import com.fixmystreet.fixmystreet.config.security.JwtAuthenticationFilter;
-import com.fixmystreet.fixmystreet.config.security.JwtService;
+import com.fixmystreet.fixmystreet.config.security.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,14 +12,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @RequiredArgsConstructor
 public class RequestConfiguration {
 
-    final AuthenticationProvider authenticationProvider;
-    final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AuthenticationProvider authenticationProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
 
     @Bean
@@ -29,17 +28,21 @@ public class RequestConfiguration {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers(
                             "/api/v1/auth/**",
-                           //"/api/users/**",
-                            "/api/reports/**",
                             "/v3/api-docs/**",
                             "/swagger-ui/**",
-                            "/swagger-ui.html"
+                            "/swagger-ui.html",
+                            "/api/auth/**", "/oauth2/**"
                     ).permitAll()
                     .anyRequest().authenticated()
-            ).sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            ).oauth2Login(oauth -> oauth
+                .successHandler(oAuth2SuccessHandler)
+               // .defaultSuccessUrl("/swagger-ui/index.html", true)
+
+                )
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
